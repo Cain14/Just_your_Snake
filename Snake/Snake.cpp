@@ -12,6 +12,7 @@ int taily[100];
 int ntail;	
 enum eDirection{STOP=0,LEFT,RIGHT,UP,DOWN};
 eDirection dir;
+HANDLE  h = GetStdHandle(STD_OUTPUT_HANDLE);
 void Setup() {
 	gameOver = false;
 	dir = STOP;
@@ -22,51 +23,65 @@ void Setup() {
 	score = 0;
 	ntail = 0;
 }
-void Draw(){
-	system("cls");//clearscreen
-	for (int i = 0; i < nWidth+2; i++) {
+void Draw() {
+	system("cls"); // Clear screen
+
+	// Draw top wall
+	for (int i = 0; i < nWidth + 2; i++) {
+		SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "#";
-	}cout << endl;
+	}
+	cout << endl;
 
 	for (int i = 0; i < nHeight; i++) {
 		for (int j = 0; j < nWidth; j++) {
 			if (j == 0) {
+				SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 				cout << "#";
 			}
 			if (i == y && j == x) {
+				SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
 				cout << "O";
-
 			}
 			else if (i == fruity && j == fruitx) {
+				SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 				cout << "F";
-
 			}
 			else {
 				bool print = false;
 				for (int k = 0; k < ntail; k++) {
-					
 					if (tailx[k] == j && taily[k] == i) {
+						SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 						cout << "o";
 						print = true;
 					}
-				}if (!print) {
+				}
+				if (!print) {
 					cout << " ";
 				}
 			}
-			
+
 			if (j == nWidth - 1) {
+				SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 				cout << "#";
 			}
-		}cout << endl;
+		}
+		cout << endl;
 	}
 
-	for (int i = 0; i < nWidth+2; i++) {
+	// Draw bottom wall
+	for (int i = 0; i < nWidth + 2; i++) {
+		SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "#";
-	}cout << endl;
-	cout << "SCORE = "<<score;
-	Sleep(500);
+	}
+	cout << endl;
 
+	// Reset text color to default
+	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	cout << "SCORE = " << score;
+	Sleep(100);
 }
+
 
 void Input() {
 	if (_kbhit())
@@ -148,6 +163,7 @@ void Logic() {
 }
 
 int main() {
+	srand(time(NULL));
 	Setup();
 	while (!gameOver) {
 		
@@ -158,4 +174,4 @@ int main() {
 	}
 }
 
-//Game reinterpreted by hand from Cain ;)
+//Game made by hand from Cain ;)
