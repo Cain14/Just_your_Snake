@@ -158,4 +158,4 @@ int main() {
 	}
 }
 
-//Game made by hand from Cain ;)
+//Game reinterpreted by hand from Cain ;)
